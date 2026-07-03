@@ -95,7 +95,7 @@ foreach ($dir in @($InstallDir, $binDir, $versionsDir)) {
 # Copy Script Files
 $filesToCopy = @{
     'pvm.ps1' = Join-Path $binDir 'pvm.ps1'
-    'pvm.bat' = Join-Path $binDir 'pvm.bat'
+    'uninstall.ps1' = Join-Path $binDir 'uninstall.ps1'
 }
 
 foreach ($src in $filesToCopy.Keys) {
