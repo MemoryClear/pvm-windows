@@ -6,7 +6,7 @@
 
 *灵感来自 [nvm-windows](https://github.com/coreybutler/nvm-windows)*
 
-[English](README.md) | [中文](README_zh-CN.md)
+[English](README_en.md) | [中文](README.md)
 
 </div>
 
