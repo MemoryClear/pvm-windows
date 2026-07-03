@@ -6,6 +6,8 @@
 
 *Inspired by [nvm-windows](https://github.com/coreybutler/nvm-windows)*
 
+[English](README.md) | [中文](README_zh-CN.md)
+
 </div>
 
 ---
