@@ -140,14 +140,20 @@ function Get-AvailableVersions {
 }
 
 function Get-ArchString {
-    if ([Environment]::Is64BitOperatingSystem) { return "amd64" }
-    return "win32"
+    # Returns architecture string for embeddable zip download
+    # 64-bit Windows: amd64
+    # 32-bit Windows: win32
+    if ([Environment]::Is64BitOperatingSystem) {
+        return "amd64"
+    } else {
+        return "win32"
+    }
 }
 
 function Get-DownloadUrl {
-    param([string]$Version)
-    # Use embeddable zip to avoid registry/MSI issues
-    return "$(Get-PythonMirror)$Version/python-$Version-embed-$(Get-ArchString).zip"
+    param([string]$Version, [string]$Arch)
+    if ([string]::IsNullOrWhiteSpace($Arch)) { $Arch = Get-ArchString }
+    return "$(Get-PythonMirror)$Version/python-$Version-embed-$Arch.zip"
 }
 
 function Download-File {
@@ -260,10 +266,18 @@ function Get-CurrentVersion {
 # ─── Command Implementations ─────────────────────────────────────────────────
 
 function Invoke-PvmInstall {
-    param([string]$Version)
+    param([string]$Version, [string]$Arch)
     if ([string]::IsNullOrWhiteSpace($Version)) {
-        Write-ColorOutput "Usage: pvm install <version>" "Yellow"
+        Write-ColorOutput "Usage: pvm install <version> [--arch x64|x86]" "Yellow"
         return
+    }
+    # Parse --arch from remaining args or validate
+    $requestedArch = ""
+    if (-not [string]::IsNullOrWhiteSpace($Arch)) {
+        $a = $Arch.ToLower()
+        if ($a -eq "x64" -or $a -eq "amd64") { $requestedArch = "amd64" }
+        elseif ($a -eq "x86" -or $a -eq "win32" -or $a -eq "32") { $requestedArch = "win32" }
+        else { Write-ColorOutput "Invalid arch: $Arch. Use x64 or x86." "Red"; return }
     }
     $isAlias = ($Version -eq "latest" -or $Version -match '^\d+\.\d+$')
     try { $resolvedVersion = Resolve-PythonVersion $Version }
@@ -285,8 +299,9 @@ function Invoke-PvmInstall {
             return
         }
         
-        $downloadUrl = Get-DownloadUrl $versionToTry
-        Write-Host "Checking availability of Python $versionToTry ..." -ForegroundColor Gray
+        $arch = if (-not [string]::IsNullOrWhiteSpace($requestedArch)) { $requestedArch } else { Get-ArchString }
+        $downloadUrl = Get-DownloadUrl $versionToTry $arch
+        Write-Host "Checking availability of Python $versionToTry ($arch) ..." -ForegroundColor Gray
         if (-not (Test-UrlExists $downloadUrl)) {
             Write-ColorOutput "Python $versionToTry does not have Windows packages released yet." "Yellow"
             if ($isAlias -and $versionToTry -ne $versionsToTry[-1]) {
@@ -308,9 +323,9 @@ function Invoke-PvmInstall {
             }
         }
         
-        $zipFile = Join-Path $env:TEMP "python-$versionToTry-embed-$(Get-ArchString).zip"
+        $zipFile = Join-Path $env:TEMP "python-$versionToTry-embed-$arch.zip"
         Write-Host ""
-        Write-Host "Installing Python $versionToTry (embeddable)..." -ForegroundColor White
+        Write-Host "Installing Python $versionToTry ($arch) ..." -ForegroundColor White
         if (Download-File -Url $downloadUrl -OutFile $zipFile) {
             Write-Host "Extracting to: $versionDir" -ForegroundColor Cyan
             if (Test-Path $versionDir) { Remove-Item $versionDir -Recurse -Force -ErrorAction SilentlyContinue }
@@ -538,7 +553,7 @@ Mirrors:
 # ─── Main ────────────────────────────────────────────────────────────────────
 if ([string]::IsNullOrWhiteSpace($Command)) { Invoke-PvmHelp; return }
 switch ($Command.ToLower()) {
-    "install"    { Invoke-PvmInstall $Arg1 }
+    "install"    { Invoke-PvmInstall $Arg1 $Arg2 }
     "use"        { Invoke-PvmUse $Arg1 }
     "list"       { 
         $checkFlag = ($Arg2 -eq "-check" -or $Arg2 -eq "--check")
