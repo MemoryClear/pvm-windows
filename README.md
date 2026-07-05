@@ -70,13 +70,27 @@ pvm install latest
 
 就这么简单！Python 已安装并可以使用。
 
+### 架构支持（32/64 位）
+
+PVM 自动检测系统架构，下载对应的 embeddable zip 包：
+
+```cmd
+pvm install 3.12.9              # 自动检测架构（推荐）
+pvm install 3.12.9 --arch x86   # 强制安装 32 位
+pvm install 3.12.9 --arch x64   # 强制安装 64 位
+```
+
+- 64 位 Windows → 下载 `amd64` 版本
+- 32 位 Windows → 下载 `win32` 版本
+- 在 64 位系统上可用 `--arch x86` 安装 32 位 Python
+
 ### 示例输出
 
 ```
 > pvm install 3.12.9
-Checking availability of Python 3.12.9 ...
+Checking availability of Python 3.12.9 (amd64) ...
 
-Installing Python 3.12.9 (embeddable)...
+Installing Python 3.12.9 (amd64) ...
 Downloading : https://registry.npmmirror.com/-/binary/python/3.12.9/python-3.12.9-embed-amd64.zip
 Extracting to: C:\Users\you\.pvm\versions\3.12.9
   Extracted: Python 3.12.9
@@ -94,7 +108,13 @@ Python 3.12.9 installed successfully!
 pvm install 3.12.9          # 安装指定版本
 pvm install 3.12             # 安装最新 3.12.x
 pvm install latest           # 安装最新稳定版
+pvm install 3.12.9 --arch x86   # 安装 32 位版本
 ```
+
+**架构参数：**
+- 不指定 `--arch` → 自动检测系统架构
+- `--arch x64` 或 `--arch amd64` → 强制 64 位
+- `--arch x86` 或 `--arch win32` → 强制 32 位
 
 **工作原理：**
 - 从 python.org 或配置的镜像下载官方 embeddable zip
@@ -400,7 +420,7 @@ powershell -ExecutionPolicy Bypass -File "%USERPROFILE%\.pvm\bin\uninstall.ps1"
 
 欢迎贡献！改进方向：
 
-- [ ] 支持 32 位 Python
+- [x] 支持 32 位 Python
 - [ ] 预发布版本支持
 - [ ] 下载进度条
 - [ ] 代理支持

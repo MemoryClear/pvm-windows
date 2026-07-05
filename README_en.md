@@ -70,13 +70,27 @@ pvm install latest
 
 That's it! You now have Python installed and ready to use.
 
+### Architecture Support (32/64-bit)
+
+PVM auto-detects your system architecture and downloads the corresponding embeddable zip:
+
+```cmd
+pvm install 3.12.9              # Auto-detect architecture (recommended)
+pvm install 3.12.9 --arch x86   # Force 32-bit installation
+pvm install 3.12.9 --arch x64   # Force 64-bit installation
+```
+
+- 64-bit Windows → downloads `amd64` package
+- 32-bit Windows → downloads `win32` package
+- Use `--arch x86` on 64-bit systems to install 32-bit Python
+
 ### Example Output
 
 ```
 > pvm install 3.12.9
-Checking availability of Python 3.12.9 ...
+Checking availability of Python 3.12.9 (amd64) ...
 
-Installing Python 3.12.9 (embeddable)...
+Installing Python 3.12.9 (amd64) ...
 Downloading : https://www.python.org/ftp/python/3.12.9/python-3.12.9-embed-amd64.zip
 Extracting to: C:\Users\you\.pvm\versions\3.12.9
   Extracted: Python 3.12.9
@@ -94,7 +108,13 @@ Python 3.12.9 installed successfully!
 pvm install 3.12.9          # Install specific version
 pvm install 3.12             # Install latest 3.12.x
 pvm install latest           # Install latest stable version
+pvm install 3.12.9 --arch x86   # Install 32-bit version
 ```
+
+**Architecture options:**
+- No `--arch` flag → auto-detect system architecture
+- `--arch x64` or `--arch amd64` → force 64-bit
+- `--arch x86` or `--arch win32` → force 32-bit
 
 **How it works:**
 - Downloads official embeddable zip from python.org (or configured mirror)
@@ -400,7 +420,7 @@ powershell -ExecutionPolicy Bypass -File "%USERPROFILE%\.pvm\bin\uninstall.ps1"
 
 Contributions welcome! Ideas:
 
-- [ ] Add support for 32-bit Python
+- [x] Add support for 32-bit Python
 - [ ] Pre-release version support
 - [ ] Progress bar during download
 - [ ] Proxy support
