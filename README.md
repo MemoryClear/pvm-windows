@@ -260,11 +260,11 @@ PVM 使用**目录连接**（而非符号链接）切换版本：
 
 | 服务 | URL |
 |---------|-----|
-| **Python (npmmirror)** | `https://npmmirror.com/mirrors/python/` |
-| **Python (阿里云)** | `https://mirrors.aliyun.com/python/` |
-| **pip (清华)** | `https://pypi.tuna.tsinghua.edu.cn/simple/` |
-| **pip (阿里云)** | `https://mirrors.aliyun.com/pypi/simple/` |
-| **pip (豆瓣)** | `https://pypi.douban.com/simple/` |
+| **Python (npmmirror)** | `https://registry.npmmirror.com/-/binary/python/` |
+| **Python (华为云)** | `https://repo.huaweicloud.com/python/` |
+| **pip (清华 TUNA)** | `https://pypi.tuna.tsinghua.edu.cn/simple/` |
+| **pip (腾讯云)** | `https://mirrors.cloud.tencent.com/pypi/simple/` |
+| **pip (阿里云)** | `https://mirrors.aliyun.com/pypi/simple/` | |
 
 ### 快速设置
 
