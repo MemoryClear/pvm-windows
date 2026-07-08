@@ -18,7 +18,7 @@ $script:PVM_VERSION = "1.1.0"
 $script:DEFAULT_PVM_HOME = Join-Path $env:USERPROFILE ".pvm"
 $script:DEFAULT_PYTHON_MIRROR = "https://www.python.org/ftp/python/"
 $script:DEFAULT_PIP_MIRROR = "https://pypi.org/simple/"
-$script:NPM_MIRROR_PYTHON = "https://npmmirror.com/mirrors/python/"
+$script:NPM_MIRROR_PYTHON = "https://registry.npmmirror.com/-/binary/python/"
 $script:NPM_MIRROR_PIP = "https://pypi.tuna.tsinghua.edu.cn/simple/"
 
 # Initialize PVM_HOME at script load time
@@ -128,14 +128,23 @@ function Get-AvailableVersions {
     try {
         Write-Host "Fetching available versions..." -ForegroundColor Gray
         $response = Invoke-WebRequest -Uri $mirror -UseBasicParsing -TimeoutSec 30
-        $all = [regex]::Matches($response.Content, '>(\d+\.\d+\.\d+)/') | ForEach-Object { $_.Groups[1].Value }
+        
+        # Try JSON API format (registry.npmmirror.com)
+        if ($response.Content -match '^\s*\[') {
+            $json = $response.Content | ConvertFrom-Json
+            $all = $json | Where-Object { $_.type -eq 'dir' -and $_.name -match '^(\d+\.\d+\.\d+)/$' } | ForEach-Object { $_.name.TrimEnd('/') }
+        } else {
+            # Fallback to HTML directory listing (python.org)
+            $all = [regex]::Matches($response.Content, '>(\d+\.\d+\.\d+)/') | ForEach-Object { $_.Groups[1].Value }
+        }
+        
         $stable = $all | Where-Object { $_ -match '^3\.\d+\.\d+$' } | Sort-Object { [version]$_ } -Descending | Select-Object -Unique
         $stable | Set-Content $cacheFile -Encoding UTF8
         return $stable
     }
     catch {
         if (Test-Path $cacheFile) { return Get-Content $cacheFile }
-        throw "Failed to fetch versions."
+        throw "Failed to fetch versions: $_"
     }
 }
 
