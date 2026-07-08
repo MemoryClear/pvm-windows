@@ -35,6 +35,6 @@ exit /b 1
 
 :done
 :: Refresh PATH from registry so subsequent commands in the same session work
-for /f "tokens=2*" %%A in ('reg query "HKCU\Environment" /v PATH 2^>nul ^| findstr REG_') do (
+for /f "tokens=2* delims=" %%A in ('reg query "HKCU\Environment" /v PATH 2^>nul ^| findstr REG_') do (
     set "PATH=%%B"
 )
