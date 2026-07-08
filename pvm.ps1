@@ -520,8 +520,8 @@ function Invoke-PvmRoot {
     Write-Host "PVM root changed to '$NewPath'" -ForegroundColor Green
 }
 
-function Invoke-PvmPythonMirror { param([string]$NewMirror) if ([string]::IsNullOrWhiteSpace($NewMirror)) { Write-Host (Get-PythonMirror) } else { $s = Get-Settings; $s.python_mirror = $NewMirror; Save-Settings $s; Write-Host "Python mirror set to: $NewMirror" -ForegroundColor Green } }
-function Invoke-PvmPipMirror { param([string]$NewMirror) if ([string]::IsNullOrWhiteSpace($NewMirror)) { Write-Host (Get-PipMirror) } else { $s = Get-Settings; $s.pip_mirror = $NewMirror; Save-Settings $s; Write-Host "pip mirror set to: $NewMirror" -ForegroundColor Green } }
+function Invoke-PvmPythonMirror { param([string]$NewMirror) if ([string]::IsNullOrWhiteSpace($NewMirror)) { Write-Host (Get-PythonMirror) } elseif ($NewMirror -eq "default") { $s = Get-Settings; $s.python_mirror = $null; Save-Settings $s; Write-Host "Python mirror reset to default: $script:NPM_MIRROR_PYTHON" -ForegroundColor Green } else { $s = Get-Settings; $s.python_mirror = $NewMirror; Save-Settings $s; Write-Host "Python mirror set to: $NewMirror" -ForegroundColor Green } }
+function Invoke-PvmPipMirror { param([string]$NewMirror) if ([string]::IsNullOrWhiteSpace($NewMirror)) { Write-Host (Get-PipMirror) } elseif ($NewMirror -eq "default") { $s = Get-Settings; $s.pip_mirror = $null; Save-Settings $s; Write-Host "pip mirror reset to default: $script:NPM_MIRROR_PIP" -ForegroundColor Green } else { $s = Get-Settings; $s.pip_mirror = $NewMirror; Save-Settings $s; Write-Host "pip mirror set to: $NewMirror" -ForegroundColor Green } }
 function Invoke-PvmVersion { Write-Host "PVM version $script:PVM_VERSION" -ForegroundColor Cyan }
 function Invoke-PvmHelp {
     Write-Host @"
@@ -535,8 +535,8 @@ Commands:
   current                Show current version
   uninstall <version>    Uninstall a version
   root [path]            Show/set PVM root
-  python_mirror [url]    Show/set Python download mirror
-  pip_mirror [url]       Show/set pip mirror
+  python_mirror [url]    Show/set Python download mirror (use 'default' to reset)
+  pip_mirror [url]       Show/set pip mirror (use 'default' to reset)
   mirror                 Show current mirror settings
   version                Show PVM version
   help                   Show this help
