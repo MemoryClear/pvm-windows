@@ -5,6 +5,7 @@
     Install PVM (Python Version Manager) and configure the system.
     Supports custom installation directory.
 .NOTES
+    Requirements: This script must be in the same directory as pvm.ps1 and uninstall.ps1.
     Usage:
         powershell -ExecutionPolicy Bypass -File install.ps1
         powershell -ExecutionPolicy Bypass -File install.ps1 -InstallDir D:\pvm

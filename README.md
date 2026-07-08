@@ -32,8 +32,8 @@ PVM (Python Version Manager) 是一个轻量级的 Windows Python 版本管理�
 
 ### 安装
 
-1. 下载 `install.ps1`（或下载整个仓库）到**任意目录**。
-   安装程序会自动生成并复制所有必需文件到 `%USERPROFILE%\.pvm\bin\`。
+1. 下载 `install.ps1`、`pvm.ps1`、`uninstall.ps1` 到**同一目录**（或直接下载整个仓库）。
+   安装程序会将它们复制到 `%USERPROFILE%\.pvm\bin\`。
 
 2. 运行安装程序：
 

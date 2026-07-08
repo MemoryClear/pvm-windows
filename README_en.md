@@ -32,8 +32,8 @@ PVM (Python Version Manager) is a lightweight tool for managing multiple Python 
 
 ### Installation
 
-1. Download `install.ps1` (or clone the whole repo) to **any directory**.
-   The installer automatically generates and copies all required files to `%USERPROFILE%\.pvm\bin\`.
+1. Download `install.ps1`, `pvm.ps1`, and `uninstall.ps1` into the **same directory** (or just clone the whole repo).
+   The installer copies them to `%USERPROFILE%\.pvm\bin\`.
 
 2. Run the installer:
 
