@@ -32,15 +32,8 @@ PVM (Python Version Manager) 是一个轻量级的 Windows Python 版本管理�
 
 ### 安装
 
-<<<<<<< Updated upstream
-1. 下载仓库中**所有三个文件**到**同一目录**：
-   - `install.ps1` — 安装脚本
-   - `pvm.ps1` — 主脚本
-   - `uninstall.ps1` — 卸载脚本
-=======
 1. 下载 `install.ps1`（或下载整个仓库）到**任意目录**。
    安装程序会自动生成并复制所有必需文件到 `%USERPROFILE%\.pvm\bin\`。
->>>>>>> Stashed changes
 
 2. 运行安装程序：
 
@@ -49,10 +42,6 @@ cd <下载目录>
 powershell -ExecutionPolicy Bypass -File install.ps1
 ```
 
-<<<<<<< Updated upstream
-> ⚠️ 运行 `install.ps1` 前，三个文件必须在同一目录。安装程序会将它们复制到 `%USERPROFILE%\.pvm\bin\`。
-=======
->>>>>>> Stashed changes
 
 3. **重启终端**（重要！）
 4. 验证安装：
@@ -196,11 +185,7 @@ powershell -ExecutionPolicy Bypass -File install.ps1 -InstallDir D:\pvm
 ```cmd
 # Python 下载镜像
 pvm python_mirror                                           # 显示当前
-<<<<<<< Updated upstream
-pvm python_mirror https://registry.npmmirror.com/-/binary/python/  # 国内镜像
-=======
 pvm python_mirror https://npmmirror.com/mirrors/python/  # 国内镜像
->>>>>>> Stashed changes
 pvm python_mirror default                                   # 重置为官方
 
 # pip 镜像
@@ -275,11 +260,7 @@ PVM 使用**目录连接**（而非符号链接）切换版本：
 
 | 服务 | URL |
 |---------|-----|
-<<<<<<< Updated upstream
-| **Python (npmmirror)** | `https://registry.npmmirror.com/-/binary/python/` |
-=======
 | **Python (npmmirror)** | `https://npmmirror.com/mirrors/python/` |
->>>>>>> Stashed changes
 | **Python (阿里云)** | `https://mirrors.aliyun.com/python/` |
 | **pip (清华)** | `https://pypi.tuna.tsinghua.edu.cn/simple/` |
 | **pip (阿里云)** | `https://mirrors.aliyun.com/pypi/simple/` |
