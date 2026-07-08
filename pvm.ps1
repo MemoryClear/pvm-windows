@@ -522,6 +522,7 @@ function Invoke-PvmRoot {
 
 function Invoke-PvmPythonMirror { param([string]$NewMirror) if ([string]::IsNullOrWhiteSpace($NewMirror)) { Write-Host (Get-PythonMirror) } elseif ($NewMirror -eq "default") { $s = Get-Settings; $s.python_mirror = $null; Save-Settings $s; Write-Host "Python mirror reset to default: $script:NPM_MIRROR_PYTHON" -ForegroundColor Green } else { $s = Get-Settings; $s.python_mirror = $NewMirror; Save-Settings $s; Write-Host "Python mirror set to: $NewMirror" -ForegroundColor Green } }
 function Invoke-PvmPipMirror { param([string]$NewMirror) if ([string]::IsNullOrWhiteSpace($NewMirror)) { Write-Host (Get-PipMirror) } elseif ($NewMirror -eq "default") { $s = Get-Settings; $s.pip_mirror = $null; Save-Settings $s; Write-Host "pip mirror reset to default: $script:NPM_MIRROR_PIP" -ForegroundColor Green } else { $s = Get-Settings; $s.pip_mirror = $NewMirror; Save-Settings $s; Write-Host "pip mirror set to: $NewMirror" -ForegroundColor Green } }
+function Invoke-PvmMirror { Write-Host "Python mirror: $(Get-PythonMirror)" -ForegroundColor Cyan; Write-Host "pip mirror:   $(Get-PipMirror)" -ForegroundColor Cyan }
 function Invoke-PvmVersion { Write-Host "PVM version $script:PVM_VERSION" -ForegroundColor Cyan }
 function Invoke-PvmHelp {
     Write-Host @"
@@ -535,7 +536,7 @@ Commands:
   current                Show current version
   uninstall <version>    Uninstall a version
   root [path]            Show/set PVM root
-  python_mirror [url]    Show/set Python download mirror (use 'default' to reset)
+  python_mirror [url]  Show/set Python download mirror (use 'default' to reset)
   pip_mirror [url]       Show/set pip mirror (use 'default' to reset)
   mirror                 Show current mirror settings
   version                Show PVM version
@@ -586,6 +587,7 @@ switch ($Command.ToLower()) {
     "root"       { Invoke-PvmRoot $Arg1 }
     "python_mirror" { Invoke-PvmPythonMirror $Arg1 }
     "pip_mirror" { Invoke-PvmPipMirror $Arg1 }
+    "mirror"     { Invoke-PvmMirror }
     "version"    { Invoke-PvmVersion }
     "help"       { Invoke-PvmHelp }
     default      { Write-ColorOutput "Unknown command: $Command" "Red" }
