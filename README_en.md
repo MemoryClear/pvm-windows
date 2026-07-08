@@ -58,7 +58,7 @@ pvm version
 If you're in China, set mirrors first for faster downloads:
 
 ```cmd
-pvm python_mirror https://registry.npmmirror.com/-/binary/python/
+pvm python_mirror https://npmmirror.com/mirrors/python/
 pvm pip_mirror https://pypi.tuna.tsinghua.edu.cn/simple/
 ```
 
@@ -188,7 +188,7 @@ powershell -ExecutionPolicy Bypass -File install.ps1 -InstallDir D:\pvm
 ```cmd
 # Python download mirror
 pvm python_mirror                                           # Show current
-pvm python_mirror https://registry.npmmirror.com/-/binary/python/  # China mirror
+pvm python_mirror https://npmmirror.com/mirrors/python/  # China mirror
 pvm python_mirror default                                   # Reset to official
 
 # pip mirror
@@ -263,7 +263,7 @@ PVM uses **directory junctions** (not symlinks) to switch versions:
 
 | Service | URL |
 |---------|-----|
-| **Python (npmmirror)** | `https://registry.npmmirror.com/-/binary/python/` |
+| **Python (npmmirror)** | `https://npmmirror.com/mirrors/python/` |
 | **Python (Aliyun)** | `https://mirrors.aliyun.com/python/` |
 | **pip (Tsinghua)** | `https://pypi.tuna.tsinghua.edu.cn/simple/` |
 | **pip (Aliyun)** | `https://mirrors.aliyun.com/pypi/simple/` |
@@ -272,7 +272,7 @@ PVM uses **directory junctions** (not symlinks) to switch versions:
 ### Quick Setup
 
 ```cmd
-pvm python_mirror https://registry.npmmirror.com/-/binary/python/
+pvm python_mirror https://npmmirror.com/mirrors/python/
 pvm pip_mirror https://pypi.tuna.tsinghua.edu.cn/simple/
 ```
 
@@ -367,7 +367,7 @@ pvm list available --check
 Switch to China mirror if needed:
 
 ```cmd
-pvm python_mirror https://registry.npmmirror.com/-/binary/python/
+pvm python_mirror https://npmmirror.com/mirrors/python/
 ```
 
 ### pip install fails
