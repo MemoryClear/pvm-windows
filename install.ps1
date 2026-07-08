@@ -128,10 +128,10 @@ $launcherContent += ")`r`n"
 $launcherContent += "echo ERROR: PowerShell not found.`r`n"
 $launcherContent += "exit /b 1`r`n"
 $launcherContent += ":done`r`n"
-$launcherContent += ":: Refresh PATH from user environment`r`n"
-$launcherContent += "setlocal EnableDelayedExpansion`r`n"
-$launcherContent += "for /f `"tokens=2*`" %%A in ('reg query `"HKCU\Environment`" /v PATH 2^>nul ^| findstr REG_') do set `"PATH=%%B`"`r`n"
-$launcherContent += "endlocal"
+$launcherContent += ":: Refresh PATH from registry (delims= preserves full value including semicolons)`r`n"
+$launcherContent += "for /f `"tokens=2* delims=`" %%A in ('reg query `"HKCU\Environment`" /v PATH 2^>nul ^| findstr REG_') do (`r`n"
+$launcherContent += "    set `"PATH=%%B`"`r`n"
+$launcherContent += ")"
 
 $launcherPath = Join-Path $binDir 'pvm.bat'
 $launcherContent | Set-Content $launcherPath -Encoding ASCII

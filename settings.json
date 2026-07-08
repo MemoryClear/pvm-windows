@@ -1,0 +1,6 @@
+{
+  "python_mirror": "https://npmmirror.com/mirrors/python/",
+  "pip_mirror": "https://pypi.org/simple/",
+  "get_pip_url": null,
+  "root": null
+}

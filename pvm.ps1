@@ -18,7 +18,7 @@ $script:PVM_VERSION = "1.1.0"
 $script:DEFAULT_PVM_HOME = Join-Path $env:USERPROFILE ".pvm"
 $script:DEFAULT_PYTHON_MIRROR = "https://www.python.org/ftp/python/"
 $script:DEFAULT_PIP_MIRROR = "https://pypi.org/simple/"
-$script:NPM_MIRROR_PYTHON = "https://registry.npmmirror.com/-/binary/python/"
+$script:NPM_MIRROR_PYTHON = "https://npmmirror.com/mirrors/python/"
 $script:NPM_MIRROR_PIP = "https://pypi.tuna.tsinghua.edu.cn/simple/"
 
 # Initialize PVM_HOME at script load time
