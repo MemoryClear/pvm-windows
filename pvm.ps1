@@ -107,10 +107,6 @@ function Test-UrlExists {
         }
         return $false
     }
-    catch [Microsoft.PowerShell.Commands.HttpResponseException] {
-        # Non-success HTTP status (404, 403, etc.) - treat as not found
-        return $false
-    }
     catch [System.Management.Automation.MethodInvocationException] {
         # WebException wrapped in MethodInvocationException
         $ex = $_.Exception.InnerException
