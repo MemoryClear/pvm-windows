@@ -97,14 +97,26 @@ function Write-ColorOutput {
 function Test-UrlExists {
     param([string]$Url)
     try {
-        $response = Invoke-WebRequest -Uri $Url -Method Head -UseBasicParsing -TimeoutSec 10 -ErrorAction Stop
+        # Follow redirects and check final Content-Type
+        $response = Invoke-WebRequest -Uri $Url -Method Get -UseBasicParsing -TimeoutSec 15 -ErrorAction Stop
+        $contentType = $response.Headers.'Content-Type'
+        # Valid zip file should have application/zip or application/octet-stream
+        if ($contentType -like '*application/zip*' -or $contentType -like '*application/octet-stream*') {
+            return $true
+        }
+        # HTML page means file not found
+        if ($contentType -like '*text/html*') {
+            return $false
+        }
+        # Unknown content type, assume exists
         return $true
     }
     catch [System.Net.WebException] {
         if ($_.Exception.Response -and $_.Exception.Response.StatusCode -eq 404) { return $false }
-        return $true
+        # 403, timeout, etc - assume not exists
+        return $false
     }
-    catch { return $true }
+    catch { return $false }
 }
 
 function Get-InstalledVersions {
