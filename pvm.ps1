@@ -1,6 +1,6 @@
 <#
 .SYNOPSIS
-    PVM - Python Version Manager for Windows (v1.1.2)
+    PVM - Python Version Manager for Windows (v1.1.1)
 .DESCRIPTION
     Manage multiple Python installations on Windows.
 #>
@@ -14,7 +14,7 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = "Stop"
 
-$script:PVM_VERSION = "1.1.2"
+$script:PVM_VERSION = "1.1.1"
 $script:DEFAULT_PVM_HOME = Join-Path $env:USERPROFILE ".pvm"
 $script:DEFAULT_PYTHON_MIRROR = "https://www.python.org/ftp/python/"
 $script:DEFAULT_PIP_MIRROR = "https://pypi.org/simple/"

@@ -21,7 +21,7 @@ param(
 Set-StrictMode -Version Latest
 $ErrorActionPreference = 'Stop'
 
-$PVM_VERSION = '1.1.2'
+$PVM_VERSION = '1.1.1'
 $DEFAULT_INSTALL = Join-Path $env:USERPROFILE '.pvm'
 $SCRIPT_DIR = Split-Path -Parent $MyInvocation.MyCommand.Path
 
