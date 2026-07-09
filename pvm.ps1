@@ -97,23 +97,32 @@ function Write-ColorOutput {
 function Test-UrlExists {
     param([string]$Url)
     try {
-        # Follow redirects and check final Content-Type
-        $response = Invoke-WebRequest -Uri $Url -Method Get -UseBasicParsing -TimeoutSec 15 -ErrorAction Stop
+        # HEAD avoids body download; PowerShell follows redirects automatically
+        $response = Invoke-WebRequest -Uri $Url -Method Head -UseBasicParsing -TimeoutSec 10 -ErrorAction Stop
         $contentType = $response.Headers.'Content-Type'
-        # Valid zip file should have application/zip or application/octet-stream
-        if ($contentType -like '*application/zip*' -or $contentType -like '*application/octet-stream*') {
+        $statusCode = [int]$response.StatusCode
+        # Existing zip file: 200 + application/zip
+        if ($statusCode -eq 200 -and $contentType -like '*application/zip*') {
             return $true
         }
-        # HTML page means file not found
-        if ($contentType -like '*text/html*') {
-            return $false
+        return $false
+    }
+    catch [Microsoft.PowerShell.Commands.HttpResponseException] {
+        # Non-success HTTP status (404, 403, etc.) - treat as not found
+        return $false
+    }
+    catch [System.Management.Automation.MethodInvocationException] {
+        # WebException wrapped in MethodInvocationException
+        $ex = $_.Exception.InnerException
+        if ($ex -is [System.Net.WebException] -and $ex.Response) {
+            return [int]$ex.Response.StatusCode -eq 200
         }
-        # Unknown content type, assume exists
-        return $true
+        return $false
     }
     catch [System.Net.WebException] {
-        if ($_.Exception.Response -and $_.Exception.Response.StatusCode -eq 404) { return $false }
-        # 403, timeout, etc - assume not exists
+        if ($_.Exception.Response) {
+            return [int]$_.Exception.Response.StatusCode -eq 200
+        }
         return $false
     }
     catch { return $false }
