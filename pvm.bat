@@ -1,15 +1,14 @@
 @echo off
-:: PVM launcher - auto-detects PowerShell
-set "PVM_HOME=D:\pvm"
-set "PVM_BIN=D:\pvm\bin"
+:: PVM launcher - reads PVM_HOME from environment, falls back to default
+if not defined PVM_HOME set "PVM_HOME=%USERPROFILE%\.pvm"
 where pwsh.exe >nul 2>&1
 if %errorlevel%==0 (
-    pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "%PVM_BIN%\pvm.ps1" %*
+    pwsh.exe -NoProfile -ExecutionPolicy Bypass -File "%PVM_HOME%\bin\pvm.ps1" %*
     goto :done
 )
 where powershell.exe >nul 2>&1
 if %errorlevel%==0 (
-    powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%PVM_BIN%\pvm.ps1" %*
+    powershell.exe -NoProfile -ExecutionPolicy Bypass -File "%PVM_HOME%\bin\pvm.ps1" %*
     goto :done
 )
 echo ERROR: PowerShell not found.

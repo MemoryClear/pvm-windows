@@ -112,18 +112,18 @@ foreach ($src in $filesToCopy.Keys) {
 
 # Create launcher batch file
 # Note: We avoid complex for/f syntax that has backtick issues in PowerShell here-strings
+$defaultPvmHome = Join-Path $env:USERPROFILE '.pvm'
 $launcherContent = "@echo off`r`n"
-$launcherContent += ":: PVM launcher - auto-detects PowerShell`r`n"
-$launcherContent += "set `"PVM_HOME=$InstallDir`"`r`n"
-$launcherContent += "set `"PVM_BIN=$binDir`"`r`n"
+$launcherContent += ":: PVM launcher - reads PVM_HOME from environment, falls back to default`r`n"
+$launcherContent += "if not defined PVM_HOME set `"PVM_HOME=$defaultPvmHome`"`r`n"
 $launcherContent += "where pwsh.exe >nul 2>&1`r`n"
 $launcherContent += "if %errorlevel%==0 (`r`n"
-$launcherContent += "    pwsh.exe -NoProfile -ExecutionPolicy Bypass -File `"%PVM_BIN%\pvm.ps1`" %*`r`n"
+$launcherContent += "    pwsh.exe -NoProfile -ExecutionPolicy Bypass -File `"%PVM_HOME%in\pvm.ps1`" %*`r`n"
 $launcherContent += "    goto :done`r`n"
 $launcherContent += ")`r`n"
 $launcherContent += "where powershell.exe >nul 2>&1`r`n"
 $launcherContent += "if %errorlevel%==0 (`r`n"
-$launcherContent += "    powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"%PVM_BIN%\pvm.ps1`" %*`r`n"
+$launcherContent += "    powershell.exe -NoProfile -ExecutionPolicy Bypass -File `"%PVM_HOME%in\pvm.ps1`" %*`r`n"
 $launcherContent += "    goto :done`r`n"
 $launcherContent += ")`r`n"
 $launcherContent += "echo ERROR: PowerShell not found.`r`n"
