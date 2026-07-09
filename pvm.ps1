@@ -545,7 +545,6 @@ Commands:
 Version shortcuts:
   pvm install 3.12         ->  latest 3.12.x version
   pvm install latest       ->  latest stable version
-  pvm install lts          ->  latest LTS version
 
 Examples:
   pvm install 3.12.9
